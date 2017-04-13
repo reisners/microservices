@@ -1,4 +1,4 @@
-package de.ryznr.product.api;
+package product.api;
 
 import javax.annotation.concurrent.Immutable;
 

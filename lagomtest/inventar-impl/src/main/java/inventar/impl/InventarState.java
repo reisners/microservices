@@ -1,4 +1,4 @@
-package product.impl;
+package inventar.impl;
 
 import java.util.Optional;
 
@@ -7,25 +7,25 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import product.api.Product;
+import inventar.api.Inventar;
 
-public class ProductState {
-	private Optional<Product> product;
+public class InventarState {
+	private Optional<Inventar> Inventar;
 
-	public ProductState(Optional<Product> product) {
-		this.product = product;
+	public InventarState(Optional<Inventar> Inventar) {
+		this.Inventar = Inventar;
 	}
 	
-	public static ProductState empty() {
-		return new ProductState(Optional.empty());
+	public static InventarState empty() {
+		return new InventarState(Optional.empty());
 	}
 	
-	public static ProductState create(Product product) {
-		return new ProductState(Optional.of(product));
+	public static InventarState create(Inventar Inventar) {
+		return new InventarState(Optional.of(Inventar));
 	}
 
-	public Optional<Product> getProduct() {
-		return product;
+	public Optional<Inventar> getInventar() {
+		return Inventar;
 	}
 
 	@Override

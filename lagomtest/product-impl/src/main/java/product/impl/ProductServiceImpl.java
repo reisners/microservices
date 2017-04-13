@@ -1,4 +1,4 @@
-package de.ryznr.product.impl;
+package product.impl;
 
 import javax.inject.Inject;
 
@@ -9,10 +9,10 @@ import com.lightbend.lagom.javadsl.persistence.PersistentEntityRegistry;
 
 import akka.Done;
 import akka.NotUsed;
-import de.ryznr.product.api.Product;
-import de.ryznr.product.api.ProductService;
-import de.ryznr.product.impl.ProductCommand.GetProduct;
-import de.ryznr.product.impl.ProductCommand.PutProduct;
+import product.api.Product;
+import product.api.ProductService;
+import product.impl.ProductCommand.GetProduct;
+import product.impl.ProductCommand.PutProduct;
 
 public class ProductServiceImpl implements ProductService {
 

@@ -1,8 +1,7 @@
-package product.impl;
+package inventar.impl;
 
 import java.util.Optional;
 
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -10,27 +9,25 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Preconditions;
 import com.lightbend.lagom.javadsl.persistence.PersistentEntity;
 import com.lightbend.lagom.serialization.Jsonable;
 
 import akka.Done;
-import product.api.Product;
+import inventar.api.Inventar;
 
-public interface ProductCommand extends Jsonable {
+public interface InventarCommand extends Jsonable {
 
 	/**
-	 * A command to retrieve a product by its EAN
+	 * A command to retrieve a Inventar by its EAN
 	 * <p>
-	 * The reply is the product
+	 * The reply is the Inventar
 	 *
 	 */
 	@SuppressWarnings("serial")
 	@Immutable
 	@JsonDeserialize
-	public final class GetProduct implements ProductCommand, PersistentEntity.ReplyType<Optional<Product>> {
+	public final class GetInventar implements InventarCommand, PersistentEntity.ReplyType<Optional<Inventar>> {
 		@Override
 		public int hashCode() {
 			return HashCodeBuilder.reflectionHashCode(this, false);
@@ -48,7 +45,7 @@ public interface ProductCommand extends Jsonable {
 	}
 
 	/**
-	 * A command to add a new product
+	 * A command to add a new Inventar
 	 * <p>
 	 * It has a reply type of {@link akka.Done}, which is sent back to the
 	 * caller when all the events emitted by this command are successfully
@@ -58,15 +55,15 @@ public interface ProductCommand extends Jsonable {
 	@SuppressWarnings("serial")
 	@Immutable
 	@JsonDeserialize
-	public final class PutProduct implements ProductCommand, PersistentEntity.ReplyType<Done> {
-		private Product product;
+	public final class PutInventar implements InventarCommand, PersistentEntity.ReplyType<Done> {
+		private Inventar Inventar;
 
-		public PutProduct(Product product) {
-			this.product = product;
+		public PutInventar(Inventar Inventar) {
+			this.Inventar = Inventar;
 		}
 
-		public Product getProduct() {
-			return product;
+		public Inventar getInventar() {
+			return Inventar;
 		}
 
 		@Override

@@ -1,4 +1,4 @@
-package de.ryznr.product.impl;
+package product.impl;
 
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -6,10 +6,10 @@ import java.util.function.BiConsumer;
 import com.lightbend.lagom.javadsl.persistence.PersistentEntity;
 
 import akka.Done;
-import de.ryznr.product.api.Product;
-import de.ryznr.product.impl.ProductCommand.GetProduct;
-import de.ryznr.product.impl.ProductCommand.PutProduct;
-import de.ryznr.product.impl.ProductEvent.ProductCreated;
+import product.api.Product;
+import product.impl.ProductCommand.GetProduct;
+import product.impl.ProductCommand.PutProduct;
+import product.impl.ProductEvent.ProductCreated;
 
 public class ProductEntity extends PersistentEntity<ProductCommand, ProductEvent, ProductState> {
 

@@ -1,4 +1,4 @@
-package product.impl;
+package inventar.impl;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -10,25 +10,25 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.lightbend.lagom.serialization.Jsonable;
 
-import product.api.Product;
+import inventar.api.Inventar;
 
-public interface ProductEvent extends Jsonable {
+public interface InventarEvent extends Jsonable {
 	
 	/**
-	 * An event that represents a newly created product.
+	 * An event that represents a newly created Inventar.
 	 */
 	@SuppressWarnings("serial")
 	@Immutable
 	@JsonDeserialize
-	public final class ProductCreated implements ProductEvent {
-		public final Product product;
+	public final class InventarCreated implements InventarEvent {
+		public final Inventar Inventar;
 
-		public ProductCreated(Product product) {
-			this.product = product;
+		public InventarCreated(Inventar Inventar) {
+			this.Inventar = Inventar;
 		}
 
-		public Product getProduct() {
-			return product;
+		public Inventar getInventar() {
+			return Inventar;
 		}
 
 		@Override

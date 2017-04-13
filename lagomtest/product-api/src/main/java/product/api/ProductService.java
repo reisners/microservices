@@ -1,4 +1,4 @@
-package de.ryznr.product.api;
+package product.api;
 
 import static com.lightbend.lagom.javadsl.api.Service.named;
 import static com.lightbend.lagom.javadsl.api.Service.pathCall;
@@ -9,7 +9,7 @@ import com.lightbend.lagom.javadsl.api.ServiceCall;
 
 import akka.Done;
 import akka.NotUsed;
-import de.ryznr.product.api.Product;
+import product.api.Product;
 
 public interface ProductService extends Service {
 
@@ -19,8 +19,8 @@ public interface ProductService extends Service {
 	  ServiceCall<NotUsed, Product> getProduct(String ean);
 
 	  /**
-	   * Example: curl -H "Content-Type: application/json" -X POST -d '{"name":
-	   * "TV Dinner Chicken"}' http://localhost:9000/api/product/:EAN
+	   * Example: curl -H "Content-Type: application/json" -X POST -d '{"EAN": "123456", "name":
+	   * "TV Dinner Chicken"}' http://localhost:9000/api/product/
 	   */
 	  ServiceCall<Product, Done> putProduct();
 	  
