@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.lightbend.lagom.javadsl.persistence.PersistentEntity;
 
 import akka.Done;
-import inventar.api.Inventar;
+import inventar.api.ActualInventory;
 import inventar.impl.InventarCommand.GetInventar;
 import inventar.impl.InventarCommand.PutInventar;
 import inventar.impl.InventarEvent.InventarCreated;
@@ -40,7 +40,7 @@ public class InventarEntity extends PersistentEntity<InventarCommand, InventarEv
 		return b.build();
 	}
 
-	private void getInventar(GetInventar get, ReadOnlyCommandContext<Optional<Inventar>> ctx) {
+	private void getInventar(GetInventar get, ReadOnlyCommandContext<Optional<ActualInventory>> ctx) {
 		ctx.reply(state().getInventar());
 	}
 

@@ -11,7 +11,7 @@ import com.lightbend.lagom.javadsl.persistence.PersistentEntityRegistry;
 
 import akka.Done;
 import akka.NotUsed;
-import inventar.api.Inventar;
+import inventar.api.ActualInventory;
 import inventar.api.InventarService;
 import inventar.impl.InventarCommand.GetInventar;
 import inventar.impl.InventarCommand.PutInventar;
@@ -28,7 +28,7 @@ public class InventarServiceImpl implements InventarService {
 	}
 
 	@Override
-	public ServiceCall<NotUsed, Inventar> getInventar(UUID uuid) {
+	public ServiceCall<NotUsed, ActualInventory> getInventar(UUID uuid) {
 		return request -> {
 			// Look up the hello world entity for the given ID.
 			PersistentEntityRef<InventarCommand> ref = persistentEntityRegistry.refFor(InventarEntity.class, uuid.toString());
@@ -46,7 +46,7 @@ public class InventarServiceImpl implements InventarService {
 	}
 
 	@Override
-	public ServiceCall<Inventar, Done> putInventar() {
+	public ServiceCall<ActualInventory, Done> putInventar() {
 		return Inventar -> {
 			PersistentEntityRef<InventarCommand> ref = persistentEntityRegistry.refFor(InventarEntity.class, Inventar.uuid().toString());
 			return ref.ask(new PutInventar(Inventar));

@@ -17,13 +17,13 @@ public interface InventarService extends Service {
 	  /**
 	   * Example: curl http://localhost:9000/api/inventar/:uuid
 	   */
-	  ServiceCall<NotUsed, Inventar> getInventar(UUID uuid);
+	  ServiceCall<NotUsed, ActualInventory> getInventar(UUID uuid);
 
 	  /**
 	   * Example: curl -H "Content-Type: application/json" -X POST -d '{"uuid": "123456-231231", "ean":
 //	   * "1234556", "ursprungsmenge": {...}, "verbliebenerAnteil": 1.0, "gekauftAm": "2017-04-05", "haltbarBis": "2017-04-21" }' http://localhost:9000/api/inventar/
 	   */
-	  ServiceCall<Inventar, Done> putInventar();
+	  ServiceCall<ActualInventory, Done> putInventar();
 	  
 	  @Override
 	  default Descriptor descriptor() {

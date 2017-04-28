@@ -1,7 +1,8 @@
-package inventar.impl;
+package household.impl.impl;
 
 import java.util.Optional;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -9,25 +10,27 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.base.Preconditions;
 import com.lightbend.lagom.javadsl.persistence.PersistentEntity;
 import com.lightbend.lagom.serialization.Jsonable;
 
 import akka.Done;
-import inventar.api.ActualInventory;
+import household.api.Household;
 
-public interface InventarCommand extends Jsonable {
+public interface HouseholdCommand extends Jsonable {
 
 	/**
-	 * A command to retrieve a Inventar by its EAN
+	 * A command to retrieve a Household by its EAN
 	 * <p>
-	 * The reply is the Inventar
+	 * The reply is the Household
 	 *
 	 */
 	@SuppressWarnings("serial")
 	@Immutable
 	@JsonDeserialize
-	public final class GetInventar implements InventarCommand, PersistentEntity.ReplyType<Optional<ActualInventory>> {
+	public final class GetHousehold implements HouseholdCommand, PersistentEntity.ReplyType<Optional<Household>> {
 		@Override
 		public int hashCode() {
 			return HashCodeBuilder.reflectionHashCode(this, false);
@@ -45,7 +48,7 @@ public interface InventarCommand extends Jsonable {
 	}
 
 	/**
-	 * A command to add a new Inventar
+	 * A command to add a new Household
 	 * <p>
 	 * It has a reply type of {@link akka.Done}, which is sent back to the
 	 * caller when all the events emitted by this command are successfully
@@ -55,15 +58,15 @@ public interface InventarCommand extends Jsonable {
 	@SuppressWarnings("serial")
 	@Immutable
 	@JsonDeserialize
-	public final class PutInventar implements InventarCommand, PersistentEntity.ReplyType<Done> {
-		private ActualInventory Inventar;
+	public final class PutHousehold implements HouseholdCommand, PersistentEntity.ReplyType<Done> {
+		private Household Household;
 
-		public PutInventar(ActualInventory Inventar) {
-			this.Inventar = Inventar;
+		public PutHousehold(Household Household) {
+			this.Household = Household;
 		}
 
-		public ActualInventory getInventar() {
-			return Inventar;
+		public Household getHousehold() {
+			return Household;
 		}
 
 		@Override

@@ -1,4 +1,4 @@
-package inventar.impl;
+package household.impl.impl;
 
 import java.util.Optional;
 
@@ -7,25 +7,23 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import inventar.api.ActualInventory;
+public class HouseholdState {
+	private Optional<Household> Household;
 
-public class InventarState {
-	private Optional<ActualInventory> Inventar;
-
-	public InventarState(Optional<ActualInventory> Inventar) {
-		this.Inventar = Inventar;
+	public HouseholdState(Optional<Household> Household) {
+		this.Household = Household;
 	}
 	
-	public static InventarState empty() {
-		return new InventarState(Optional.empty());
+	public static HouseholdState empty() {
+		return new HouseholdState(Optional.empty());
 	}
 	
-	public static InventarState create(ActualInventory Inventar) {
-		return new InventarState(Optional.of(Inventar));
+	public static HouseholdState create(Household Household) {
+		return new HouseholdState(Optional.of(Household));
 	}
 
-	public Optional<ActualInventory> getInventar() {
-		return Inventar;
+	public Optional<Household> getHousehold() {
+		return Household;
 	}
 
 	@Override

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.ryznr</groupId>
@@ -20,7 +21,8 @@
         <module>inventar-api</module>
         <module>valueobjects</module>
         <module>inventar-impl</module>
-    </modules>
+    <module>household-impl</module>
+  </modules>
 
     <build>
         <plugins>

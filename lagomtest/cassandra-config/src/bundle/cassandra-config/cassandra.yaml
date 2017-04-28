@@ -452,8 +452,8 @@ ssl_storage_port: 7001
 # to a single address, IP aliasing is not supported.
 #
 # Leaving it blank leaves it up to InetAddress.getLocalHost(). This
-# will always do the Right Thing _if_ the node is properly configured
-# (hostname, name resolution, etc), and the Right Thing is to use the
+# will always do the Right ${entity} _if_ the node is properly configured
+# (hostname, name resolution, etc), and the Right ${entity} is to use the
 # address associated with the hostname (it might not be).
 #
 # Setting listen_address to 0.0.0.0 is always wrong.
@@ -630,7 +630,7 @@ tombstone_failure_threshold: 100000
 # Increase if your rows are large, or if you have a very large
 # number of rows per partition.  The competing goals are these:
 #   1) a smaller granularity means more index entries are generated
-#      and looking up rows withing the partition by collation column
+#      and looking up rows wi${entity} the partition by collation column
 #      is faster
 #   2) but, Cassandra will keep the collation index in memory for hot
 #      rows (as part of the key cache), so a larger granularity means
@@ -889,7 +889,7 @@ client_encryption_options:
 # compressed.
 # can be:  all  - all traffic is compressed
 #          dc   - traffic between different datacenters is compressed
-#          none - nothing is compressed.
+#          none - no${entity} is compressed.
 internode_compression: all
 
 # Enable or disable tcp_nodelay for inter-dc communication.

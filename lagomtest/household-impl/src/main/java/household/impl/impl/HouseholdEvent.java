@@ -1,4 +1,4 @@
-package inventar.impl;
+package household.impl.impl;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -10,25 +10,25 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.lightbend.lagom.serialization.Jsonable;
 
-import inventar.api.ActualInventory;
+import household.api.Household;
 
-public interface InventarEvent extends Jsonable {
+public interface HouseholdEvent extends Jsonable {
 	
 	/**
-	 * An event that represents a newly created Inventar.
+	 * An event that represents a newly created household.
 	 */
 	@SuppressWarnings("serial")
 	@Immutable
 	@JsonDeserialize
-	public final class InventarCreated implements InventarEvent {
-		public final ActualInventory Inventar;
+	public final class HouseholdCreated implements HouseholdEvent {
+		public final Household Household;
 
-		public InventarCreated(ActualInventory Inventar) {
-			this.Inventar = Inventar;
+		public HouseholdCreated(Household Household) {
+			this.Household = Household;
 		}
 
-		public ActualInventory getInventar() {
-			return Inventar;
+		public Household getHousehold() {
+			return Household;
 		}
 
 		@Override
