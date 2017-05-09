@@ -1,0 +1,6 @@
+<archetype>
+  <id>archetype-lagom-module-impl</id>
+  <sources>
+    <source>src/main/java/App.java</source>
+  </sources>
+</archetype>

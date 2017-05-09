@@ -8,22 +8,22 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class ${entity}State {
-	private Optional<${entity}> ${entity};
+	private Optional<${entity}> ${lower-case-name};
 
-	public ${entity}State(Optional<${entity}> ${entity}) {
-		this.${entity} = ${entity};
+	public ${entity}State(Optional<${entity}> ${lower-case-name}) {
+		this.${lower-case-name} = ${lower-case-name};
 	}
 	
 	public static ${entity}State empty() {
 		return new ${entity}State(Optional.empty());
 	}
 	
-	public static ${entity}State create(${entity} ${entity}) {
-		return new ${entity}State(Optional.of(${entity}));
+	public static ${entity}State create(${entity} ${lower-case-name}) {
+		return new ${entity}State(Optional.of(${lower-case-name}));
 	}
 
 	public Optional<${entity}> get${entity}() {
-		return ${entity};
+		return ${lower-case-name};
 	}
 
 	@Override

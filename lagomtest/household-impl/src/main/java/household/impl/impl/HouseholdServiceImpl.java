@@ -45,7 +45,7 @@ public class HouseholdServiceImpl implements HouseholdService {
 
 	@Override
 	public ServiceCall<Household, Done> putHousehold() {
-		return Household -> {
+		return household -> {
 			PersistentEntityRef<HouseholdCommand> ref = persistentEntityRegistry.refFor(HouseholdEntity.class, household.getEAN());
 			return ref.ask(new PutHousehold(Household));
 		};

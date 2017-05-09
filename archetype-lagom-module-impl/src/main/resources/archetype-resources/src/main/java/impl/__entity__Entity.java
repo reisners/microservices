@@ -22,10 +22,10 @@ public class ${entity}Entity extends PersistentEntity<${entity}Command, ${entity
 	private Behavior empty() {
 		BehaviorBuilder b = newBehaviorBuilder(${entity}State.empty());
 		
-		b.setReadOnlyCommandHandler(Get${lower-case-name}.class, this::get${entity});
+		b.setReadOnlyCommandHandler(Get${entity}.class, this::get${entity});
 
         // maybe do some validation? Eg, check that UUID of item matches entity UUID...
-        b.setCommandHandler(Put${lower-case-name}.class, (create, ctx) ->
+        b.setCommandHandler(Put${entity}.class, (create, ctx) ->
                 ctx.thenPersist(new ${entity}Created(create.get${entity}()), evt -> ctx.reply(Done.getInstance()))
         );
         b.setEventHandlerChangingBehavior(${entity}Created.class, evt -> created(${entity}State.create(evt.get${entity}())));
@@ -36,7 +36,7 @@ public class ${entity}Entity extends PersistentEntity<${entity}Command, ${entity
 	private Behavior created(${entity}State state) {
 		BehaviorBuilder b = newBehaviorBuilder(state);
 
-		b.setReadOnlyCommandHandler(Get${lower-case-name}.class, this::get${entity});
+		b.setReadOnlyCommandHandler(Get${entity}.class, this::get${entity});
 		
 		return b.build();
 	}

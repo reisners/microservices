@@ -10,6 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @Value.Immutable
 @JsonDeserialize
 public interface Amount {
-	Optional<URI> unit();
+	default Optional<URI> unit() { return Optional.empty(); };
 	float value();
 }

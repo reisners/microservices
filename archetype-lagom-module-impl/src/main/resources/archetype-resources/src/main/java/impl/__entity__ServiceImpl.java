@@ -45,7 +45,7 @@ public class ${entity}ServiceImpl implements ${entity}Service {
 
 	@Override
 	public ServiceCall<${entity}, Done> put${entity}() {
-		return ${entity} -> {
+		return ${lower-case-name} -> {
 			PersistentEntityRef<${entity}Command> ref = persistentEntityRegistry.refFor(${entity}Entity.class, ${lower-case-name}.getEAN());
 			return ref.ask(new Put${entity}(${entity}));
 		};

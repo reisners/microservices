@@ -7,23 +7,25 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class HouseholdState {
-	private Optional<Household> Household;
+import household.api.Household;
 
-	public HouseholdState(Optional<Household> Household) {
-		this.Household = Household;
+public class HouseholdState {
+	private Optional<Household> household;
+
+	public HouseholdState(Optional<Household> household) {
+		this.household = household;
 	}
 	
 	public static HouseholdState empty() {
 		return new HouseholdState(Optional.empty());
 	}
 	
-	public static HouseholdState create(Household Household) {
-		return new HouseholdState(Optional.of(Household));
+	public static HouseholdState create(Household household) {
+		return new HouseholdState(Optional.of(household));
 	}
 
 	public Optional<Household> getHousehold() {
-		return Household;
+		return household;
 	}
 
 	@Override
