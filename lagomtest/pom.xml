@@ -8,22 +8,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        
-        
-        
-        
-        <module>integration-tests</module>
         <module>cassandra-config</module>
         <module>product-api</module>
         <module>product-impl</module>
-        
-        
-        
         <module>valueobjects</module>
-        
-    <module>household-impl</module>
-    <module>household-api</module>
-  </modules>
+        <module>household-impl</module>
+        <module>household-api</module>
+    </modules>
 
     <build>
         <plugins>
