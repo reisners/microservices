@@ -1,4 +1,6 @@
-package household.impl.impl;
+package household.impl;
+
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -26,18 +28,18 @@ public class HouseholdServiceImpl implements HouseholdService {
 	}
 
 	@Override
-	public ServiceCall<NotUsed, Household> getHousehold(String ean) {
+	public ServiceCall<NotUsed, Household> getHousehold(UUID householdId) {
 		return request -> {
 			// Look up the hello world entity for the given ID.
-			PersistentEntityRef<HouseholdCommand> ref = persistentEntityRegistry.refFor(HouseholdEntity.class, ean);
+			PersistentEntityRef<HouseholdCommand> ref = persistentEntityRegistry.refFor(HouseholdEntity.class, householdId.toString());
 			// Ask the entity the ReadHousehold command.
 			return ref
 					.ask(new GetHousehold())
 					.thenApply(maybeHousehold -> {
-						if (maybehousehold.isPresent()) {
-							return maybehousehold.get();
+						if (maybeHousehold.isPresent()) {
+							return maybeHousehold.get();
 						} else {
-							throw new NotFound("Household " + ean + " not found");
+							throw new NotFound("Household " + householdId + " not found");
 						}
 					});
 		};
@@ -46,8 +48,8 @@ public class HouseholdServiceImpl implements HouseholdService {
 	@Override
 	public ServiceCall<Household, Done> putHousehold() {
 		return household -> {
-			PersistentEntityRef<HouseholdCommand> ref = persistentEntityRegistry.refFor(HouseholdEntity.class, household.getEAN());
-			return ref.ask(new PutHousehold(Household));
+			PersistentEntityRef<HouseholdCommand> ref = persistentEntityRegistry.refFor(HouseholdEntity.class, household.id().toString());
+			return ref.ask(new PutHousehold(household));
 		};
 	}
 

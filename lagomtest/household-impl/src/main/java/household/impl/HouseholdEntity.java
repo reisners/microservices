@@ -1,14 +1,19 @@
-package household.impl.impl;
+package household.impl;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 import com.lightbend.lagom.javadsl.persistence.PersistentEntity;
 
 import akka.Done;
 import household.api.Household;
-import household.impl.impl.HouseholdCommand.GetHousehold;
-import household.impl.impl.HouseholdCommand.PutHousehold;
-import household.impl.impl.HouseholdEvent.HouseholdCreated;
+import household.impl.HouseholdCommand.AddInventoryItem;
+import household.impl.HouseholdCommand.GetHousehold;
+import household.impl.HouseholdCommand.PutHousehold;
+import household.impl.HouseholdCommand.RemoveInventoryItem;
+import household.impl.HouseholdEvent.HouseholdCreated;
+import household.impl.HouseholdEvent.InventoryItemAdded;
+import household.impl.HouseholdEvent.InventoryItemRemoved;
 
 public class HouseholdEntity extends PersistentEntity<HouseholdCommand, HouseholdEvent, HouseholdState> {
 
@@ -23,7 +28,7 @@ public class HouseholdEntity extends PersistentEntity<HouseholdCommand, Househol
 		
 		b.setReadOnlyCommandHandler(GetHousehold.class, this::getHousehold);
 
-        // maybe do some validation? Eg, check that UUID of item matches entity UUID...
+        // maybe do some validation? Eg, check that id of item matches entity id...
         b.setCommandHandler(PutHousehold.class, (create, ctx) ->
                 ctx.thenPersist(new HouseholdCreated(create.getHousehold()), evt -> ctx.reply(Done.getInstance()))
         );
@@ -35,7 +40,14 @@ public class HouseholdEntity extends PersistentEntity<HouseholdCommand, Househol
 	private Behavior created(HouseholdState state) {
 		BehaviorBuilder b = newBehaviorBuilder(state);
 
+		// Command handlers
 		b.setReadOnlyCommandHandler(GetHousehold.class, this::getHousehold);
+		b.setCommandHandler(AddInventoryItem.class, (add, ctx) -> ctx.thenPersist(new InventoryItemAdded(add.getHouseholdId(), add.getInventoryItem())));
+		b.setCommandHandler(RemoveInventoryItem.class,
+				(remove, ctx) -> ctx.thenPersist(new InventoryItemRemoved(remove.getHouseholdId(), remove.getInventoryItemId())));
+
+		// Event handlers
+		b.setEventHandler(InventoryItemAdded.class, added -> state().addInventoryItem(added.getInventoryItem()));
 		
 		return b.build();
 	}
@@ -44,4 +56,8 @@ public class HouseholdEntity extends PersistentEntity<HouseholdCommand, Househol
 		ctx.reply(state().getHousehold());
 	}
 
+	private Persist<HouseholdEvent> addInventoryItem(AddInventoryItem add, CommandContext<Done> ctx) {
+		return ctx.thenPersist(new InventoryItemAdded(add.getHouseholdId(), add.getInventoryItem()),
+				evt -> ctx.reply(Done.getInstance())));
+	}
 }

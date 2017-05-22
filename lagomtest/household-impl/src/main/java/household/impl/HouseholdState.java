@@ -1,6 +1,7 @@
-package household.impl.impl;
+package household.impl;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -8,6 +9,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import household.api.Household;
+import household.api.ImmutableHousehold;
+import household.api.InventoryItem;
 
 public class HouseholdState {
 	private Optional<Household> household;
@@ -26,6 +29,19 @@ public class HouseholdState {
 
 	public Optional<Household> getHousehold() {
 		return household;
+	}
+	
+	public HouseholdState addInventoryItem(InventoryItem inventoryItem) {
+		return new HouseholdState(
+				household.map(h -> ImmutableHousehold.builder().from(h).addInventoryItems(inventoryItem).build()));
+	}
+	
+	public HouseholdState removeInventoryItem(String inventoryItemId) {
+		return new HouseholdState(
+				household.map(h -> ImmutableHousehold.builder()
+						.from(h).inventoryItems(h.inventoryItems().stream()
+								.filter(item -> !item.id().equals(inventoryItemId)).collect(Collectors.toSet()))
+						.build()));
 	}
 
 	@Override

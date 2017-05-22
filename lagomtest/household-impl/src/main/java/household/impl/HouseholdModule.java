@@ -1,4 +1,4 @@
-package household.impl.impl;
+package household.impl;
 
 import com.google.inject.AbstractModule;
 import com.lightbend.lagom.javadsl.server.ServiceGuiceSupport;

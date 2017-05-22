@@ -16,17 +16,17 @@ import valueobjects.ImmutableAmount;
 public interface InventoryItem {
 
 	/**
-	 * @return this instance's unique id
+	 * @return this instance's id (unique within each household)
 	 */
-	UUID uuid();
+	String id();
 	/**
 	 * @return id of the {@code Household} that this instance belongs to
 	 */
-	UUID householdId();
+	String householdId();
 	/**
 	 * @return id of the {@code Product} this is an instance of
 	 */
-	UUID productId();
+	String productId();
 	/**
 	 * @return the original amount (for products with an EAN the unit should be piece specifying the number of items). Defaults to 1 piece.
 	 */
