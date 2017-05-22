@@ -21,14 +21,14 @@ public interface ${entity}Event extends Jsonable {
 	@Immutable
 	@JsonDeserialize
 	public final class ${entity}Created implements ${entity}Event {
-		public final ${entity} ${entity};
+		public final ${entity} ${lower-case-name};
 
-		public ${entity}Created(${entity} ${entity}) {
-			this.${entity} = ${entity};
+		public ${entity}Created(${entity} ${lower-case-name}) {
+			this.${lower-case-name} = ${lower-case-name};
 		}
 
 		public ${entity} get${entity}() {
-			return ${entity};
+			return ${lower-case-name};
 		}
 
 		@Override

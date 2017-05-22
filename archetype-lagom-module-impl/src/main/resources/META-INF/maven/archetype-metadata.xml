@@ -25,5 +25,13 @@
       <directory>src/test/resources</directory>
       <includes><include>**/*</include></includes>
     </fileSet>
+    <fileSet filtered="true" packaged="true" encoding="UTF-8" >
+      <directory>src/assembly</directory>
+      <includes><include>conductr-bundle.xml</include></includes>
+    </fileSet>
+    <fileSet filtered="true" packaged="true" encoding="UTF-8" >
+      <directory>src/bundle</directory>
+      <includes><include>bundle.conf</include></includes>
+    </fileSet>
   </fileSets>
 </archetype-descriptor>

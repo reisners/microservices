@@ -26,10 +26,10 @@ public class ${entity}ServiceImpl implements ${entity}Service {
 	}
 
 	@Override
-	public ServiceCall<NotUsed, ${entity}> get${entity}(String ean) {
+	public ServiceCall<NotUsed, ${entity}> get${entity}(String id) {
 		return request -> {
 			// Look up the hello world entity for the given ID.
-			PersistentEntityRef<${entity}Command> ref = persistentEntityRegistry.refFor(${entity}Entity.class, ean);
+			PersistentEntityRef<${entity}Command> ref = persistentEntityRegistry.refFor(${entity}Entity.class, id);
 			// Ask the entity the Read${entity} command.
 			return ref
 					.ask(new Get${entity}())
@@ -37,7 +37,7 @@ public class ${entity}ServiceImpl implements ${entity}Service {
 						if (maybe${lower-case-name}.isPresent()) {
 							return maybe${lower-case-name}.get();
 						} else {
-							throw new NotFound("${entity} " + ean + " not found");
+							throw new NotFound("${entity} " + id + " not found");
 						}
 					});
 		};
@@ -46,7 +46,7 @@ public class ${entity}ServiceImpl implements ${entity}Service {
 	@Override
 	public ServiceCall<${entity}, Done> put${entity}() {
 		return ${lower-case-name} -> {
-			PersistentEntityRef<${entity}Command> ref = persistentEntityRegistry.refFor(${entity}Entity.class, ${lower-case-name}.getEAN());
+			PersistentEntityRef<${entity}Command> ref = persistentEntityRegistry.refFor(${entity}Entity.class, ${lower-case-name}.id());
 			return ref.ask(new Put${entity}(${entity}));
 		};
 	}

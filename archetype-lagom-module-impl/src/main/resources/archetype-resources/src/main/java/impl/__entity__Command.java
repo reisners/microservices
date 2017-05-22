@@ -22,7 +22,7 @@ import ${lower-case-name}.api.${entity};
 public interface ${entity}Command extends Jsonable {
 
 	/**
-	 * A command to retrieve a ${entity} by its EAN
+	 * A command to retrieve a ${entity} by its id
 	 * <p>
 	 * The reply is the ${entity}
 	 *
@@ -59,14 +59,14 @@ public interface ${entity}Command extends Jsonable {
 	@Immutable
 	@JsonDeserialize
 	public final class Put${entity} implements ${entity}Command, PersistentEntity.ReplyType<Done> {
-		private ${entity} ${entity};
+		private ${entity} ${lower-case-name};
 
-		public Put${entity}(${entity} ${entity}) {
-			this.${entity} = ${entity};
+		public Put${entity}(${entity} ${lower-case-name}) {
+			this.${entity} = ${lower-case-name};
 		}
 
 		public ${entity} get${entity}() {
-			return ${entity};
+			return ${lower-case-name};
 		}
 
 		@Override

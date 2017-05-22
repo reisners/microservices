@@ -23,12 +23,12 @@ public interface ${entity}Service extends Service {
 
 
 	  /**
-	   * Example: curl http://localhost:9000/api/${lower-case-name}/:uuid
+	   * Example: curl http://localhost:9000/api/${lower-case-name}/:id
 	   */
-	  ServiceCall<NotUsed, ${entity}> get${entity}(UUID uuid);
+	  ServiceCall<NotUsed, ${entity}> get${entity}(String id);
 
 	  /**
-	   * Example: curl -H "Content-Type: application/json" -X POST -d '{"uuid": "123456-231231"}' http://localhost:9000/api/${lower-case-name}/
+	   * Example: curl -H "Content-Type: application/json" -X POST -d '{"id": "123456-231231"}' http://localhost:9000/api/${lower-case-name}/
 	   */
 	  ServiceCall<${entity}, Done> put${entity}();
 	  

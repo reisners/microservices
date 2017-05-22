@@ -18,6 +18,6 @@ public interface ${entity} {
 	/**
 	 * @return this instance's unique id
 	 */
-	UUID uuid();
+	String id();
 
 }
