@@ -55,9 +55,4 @@ public class HouseholdEntity extends PersistentEntity<HouseholdCommand, Househol
 	private void getHousehold(GetHousehold get, ReadOnlyCommandContext<Optional<Household>> ctx) {
 		ctx.reply(state().getHousehold());
 	}
-
-	private Persist<HouseholdEvent> addInventoryItem(AddInventoryItem add, CommandContext<Done> ctx) {
-		return ctx.thenPersist(new InventoryItemAdded(add.getHouseholdId(), add.getInventoryItem()),
-				evt -> ctx.reply(Done.getInstance())));
-	}
 }

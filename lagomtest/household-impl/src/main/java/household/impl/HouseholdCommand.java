@@ -1,7 +1,6 @@
 package household.impl;
 
 import java.util.Optional;
-import java.util.String;
 
 import javax.annotation.concurrent.Immutable;
 
