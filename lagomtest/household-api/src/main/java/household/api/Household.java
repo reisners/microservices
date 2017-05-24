@@ -1,33 +1,39 @@
 package household.api;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-import org.immutables.value.Value;
+import javax.annotation.concurrent.Immutable;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@Value.Immutable
+@Immutable
 @JsonDeserialize
-/**
- * Interface specifying the properties of entity Household
- */
-public interface Household {
+public class Household {
 
+	private String id;
+	private String name;
+	private List<InventoryItem> inventoryItems = new ArrayList<>();
+	
 	/**
 	 * @return this instance's unique id
 	 */
-	String id();
-	
+	public String getId() {
+		return id;
+	}
+
 	/**
 	 * @return the {@code Household}'s display name
 	 */
-	String name();
+	public String getName() {
+		return name;
+	}
 
 	/**
-	 * @return the {@code Household}'s inventory items
+	 * @return this {@code Household}'s list of {@code InventoryItem}s
 	 */
-	Set<InventoryItem> inventoryItems();
+	public List<InventoryItem> getInventoryItems() {
+		return inventoryItems;
+	}
 }

@@ -16,7 +16,6 @@ public class Product {
 	private String name;
 
 	public Product(String EAN, String name) {
-		super();
 		this.EAN = EAN;
 		this.name = name;
 	}

@@ -1,7 +1,5 @@
 package household.impl;
 
-import java.util.UUID;
-
 import javax.inject.Inject;
 
 import com.lightbend.lagom.javadsl.api.ServiceCall;
@@ -28,7 +26,7 @@ public class HouseholdServiceImpl implements HouseholdService {
 	}
 
 	@Override
-	public ServiceCall<NotUsed, Household> getHousehold(UUID householdId) {
+	public ServiceCall<NotUsed, Household> getHousehold(String householdId) {
 		return request -> {
 			// Look up the hello world entity for the given ID.
 			PersistentEntityRef<HouseholdCommand> ref = persistentEntityRegistry.refFor(HouseholdEntity.class, householdId.toString());

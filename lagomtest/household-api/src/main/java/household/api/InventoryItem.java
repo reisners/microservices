@@ -1,8 +1,8 @@
 package household.api;
 
 import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
+
+import javax.annotation.concurrent.Immutable;
 
 import org.immutables.value.Value;
 
@@ -11,22 +11,38 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import valueobjects.Amount;
 import valueobjects.ImmutableAmount;
 
-@Value.Immutable
+@Immutable
 @JsonDeserialize
-public interface InventoryItem {
-
+public class InventoryItem {
+	private String id;
+	
+	private String householdId;
+	
+	private String productId;
+	
+	private Amount originalAmount = Amount.builder().withUnit(Amount.Unit.piece).withValue(1f);
+	
 	/**
 	 * @return this instance's id (unique within each household)
 	 */
-	String id();
+	public String getId() {
+		return id;
+	}
+
 	/**
 	 * @return id of the {@code Household} that this instance belongs to
 	 */
-	String householdId();
+	public String getHouseholdId() {
+		return householdId;
+	}
+	
 	/**
-	 * @return id of the {@code Product} this is an instance of
+	 * @return id of the {@code Product} that is inventorized
 	 */
-	String productId();
+	public String getProductId() {
+		return productId;
+	}
+
 	/**
 	 * @return the original amount (for products with an EAN the unit should be piece specifying the number of items). Defaults to 1 piece.
 	 */
