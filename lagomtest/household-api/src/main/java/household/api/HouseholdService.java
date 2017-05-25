@@ -19,7 +19,7 @@ public interface HouseholdService extends Service {
 	  ServiceCall<NotUsed, Household> getHousehold(String uuid);
 
 	  /**
-	   * Example: curl -H "Content-Type: application/json" -X POST -d '{"id": "123456-231231"}' http://localhost:9000/api/household/
+	   * Example: curl -H "Content-Type: application/json" -X POST -d '{"id": "123456-231231", "name": "Hauptstraße"}' http://localhost:9000/api/household
 	   */
 	  ServiceCall<Household, Done> putHousehold();
 	  

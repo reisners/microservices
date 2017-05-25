@@ -1,5 +1,7 @@
 package household.impl;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -9,7 +11,6 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import household.api.Household;
-import household.api.ImmutableHousehold;
 import household.api.InventoryItem;
 
 public class HouseholdState {
@@ -33,15 +34,20 @@ public class HouseholdState {
 	
 	public HouseholdState addInventoryItem(InventoryItem inventoryItem) {
 		return new HouseholdState(
-				household.map(h -> ImmutableHousehold.builder().from(h).addInventoryItems(inventoryItem).build()));
+				household.map(h -> {
+					List<InventoryItem> h1 = new LinkedList<InventoryItem>(h.inventoryItems());
+					h1.add(inventoryItem);
+					return new Household(h.id(), h.name(), h1);
+				}));
 	}
 	
 	public HouseholdState removeInventoryItem(String inventoryItemId) {
 		return new HouseholdState(
-				household.map(h -> ImmutableHousehold.builder()
-						.from(h).inventoryItems(h.inventoryItems().stream()
-								.filter(item -> !item.id().equals(inventoryItemId)).collect(Collectors.toSet()))
-						.build()));
+				household.map(h -> {
+					List<InventoryItem> i1 = h.inventoryItems().stream()
+							.filter(item -> !item.id().equals(inventoryItemId)).collect(Collectors.toList());
+					return new Household(h.id(), h.name(), i1);
+				}));
 	}
 
 	@Override
