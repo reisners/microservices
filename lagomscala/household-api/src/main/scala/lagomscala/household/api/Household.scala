@@ -6,6 +6,8 @@ import java.util.UUID
 import play.api.libs.json.{Format, Json}
 import valueobjects.{Amount, EAN}
 
+import scala.collection.immutable.Seq
+
 case class InventoryItem(id: Option[UUID],
                          productId: EAN,
                          originalAmount: Amount,

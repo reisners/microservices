@@ -14,6 +14,7 @@ import com.lightbend.lagom.scaladsl.persistence.PersistentEntity.ReplyType
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntityRegistry
 
 import scala.collection.immutable
+import scala.collection.immutable.Seq
 import scala.concurrent.ExecutionContext
 
 /**
@@ -34,13 +35,17 @@ class HouseholdServiceImpl(registry: PersistentEntityRegistry, system: ActorSyst
     }
   }
 
-  override def consume(hoseholdId: UUID, itemId: UUID) = ???
+  override def consume(householdId: UUID, itemId: UUID) = ServiceCall[Float, Done] { newRemainingFraction =>
+    refFor(householdId).ask(Consume(itemId, newRemainingFraction))
+  }
 
   override def stock(householdId: UUID): ServiceCall[InventoryItem, Done] = ServiceCall { item =>
     refFor(householdId).ask(Stock(item))
   }
 
-  override def inventory(householdId: UUID) = ???
+  override def inventory(householdId: UUID) = ServiceCall[NotUsed, Seq[InventoryItem]] { _ =>
+    refFor(householdId).ask(GetInventoryItems)
+  }
 
   private def refFor(householdId: UUID) = registry.refFor[HouseholdEntity](householdId.toString)
 }

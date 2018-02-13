@@ -4,7 +4,7 @@ import java.time.Instant
 import java.util.UUID
 
 import akka.Done
-import com.lightbend.lagom.scaladsl.api.transport.{ExceptionMessage, PolicyViolation, TransportErrorCode, TransportException}
+import com.lightbend.lagom.scaladsl.api.transport._
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntity
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntity.ReplyType
 import com.lightbend.lagom.scaladsl.playjson.{JsonSerializer, JsonSerializerRegistry}
@@ -43,8 +43,6 @@ class HouseholdEntity extends PersistentEntity {
       }
   }
 
-
-
   /**
     * The FSM to return for existing user entities
     */
@@ -60,15 +58,24 @@ class HouseholdEntity extends PersistentEntity {
         case (CreateHousehold(household), ctx, state) => ctx.invalidCommand("Household already exists!")
       }
       /*
+      Inventory
+       */
+      .onReadOnlyCommand[GetInventoryItems.type, Seq[InventoryItem]] {
+        case (GetInventoryItems, ctx, state) => ctx.reply(state.household match {
+          case Some(h) => h.inventoryItems
+          case None => Seq.empty
+        })
+      }
+      /*
       Consumption of inventory items
        */
       .onCommand[Consume, Done] {
-        case (Consume(item, newRemainingFraction), ctx, state) if newRemainingFraction < 0 =>
+        case (Consume(itemId, newRemainingFraction), ctx, state) if newRemainingFraction < 0 =>
           throw throw BadRequest("New remaining fraction cannot be less than zero")
-        case (Consume(item, newRemainingFraction), ctx, state) if newRemainingFraction == 0 =>
-          ctx.thenPersist(InventoryItemCompletelyConsumed(item))(_ => ctx.reply(Done))
-        case (Consume(item, newRemainingFraction), ctx, state) =>
-          ctx.thenPersist(InventoryItemPartiallyConsumed(item, newRemainingFraction))(_ => ctx.reply(Done))
+        case (Consume(itemId, newRemainingFraction), ctx, state) if newRemainingFraction == 0 =>
+          ctx.thenPersist(InventoryItemCompletelyConsumed(itemId))(_ => ctx.reply(Done))
+        case (Consume(itemId, newRemainingFraction), ctx, state) =>
+          ctx.thenPersist(InventoryItemPartiallyConsumed(itemId, newRemainingFraction))(_ => ctx.reply(Done))
       }
       /*
       Stocking of inventory items
@@ -81,8 +88,8 @@ class HouseholdEntity extends PersistentEntity {
     Events
      */
       .onEvent {
-        case (InventoryItemCompletelyConsumed(item), state) => state.remove(item)
-        case (InventoryItemPartiallyConsumed(item, newRemainingFraction), state) => state.consume(item, newRemainingFraction)
+        case (InventoryItemCompletelyConsumed(itemId), state) => state.remove(itemId)
+        case (InventoryItemPartiallyConsumed(itemId, newRemainingFraction), state) => state.consume(itemId, newRemainingFraction)
         case (InventoryItemStocked(item), state) => state.stock(item)
       }
   }
@@ -117,9 +124,24 @@ case class HouseholdState(household: Option[Household]) {
     copy(Option(household.get.copy(inventoryItems = household.get.inventoryItems :+ item)))
 
   /**
+    * @param itemId consume from the InventoryItem with itemId
+    * @param newRemainingFraction amount to consume as a fraction of the original absolute amount
+    * @return new state
+    */
+  def consume(itemId: UUID, newRemainingFraction: Float): HouseholdState = {
+    household match {
+      case Some(h) => h.inventoryItems.find (item => item.id == itemId) match {
+        case Some(i) => consume(i, newRemainingFraction)
+        case None => throw NotFound(s"InventoryItem with id ${itemId}")
+      }
+      case None => throw new Error("should not occur")
+    }
+  }
+
+  /**
     * @param item consume from the InventoryItem with item.id
     * @param newRemainingFraction amount to consume as a fraction of the original absolute amount
-    * @return
+    * @return new state
     */
   def consume(item: InventoryItem, newRemainingFraction: Float): HouseholdState = {
     household match {
@@ -139,6 +161,24 @@ case class HouseholdState(household: Option[Household]) {
     }
   }
 
+  /**
+    * @param itemId remove the InventoryItem with itemId
+    * @return new state
+    */
+  def remove(itemId: UUID): HouseholdState = {
+    household match {
+      case Some(h) => h.inventoryItems.find (item => item.id == itemId) match {
+        case Some(i) => remove(i)
+        case None => throw NotFound(s"InventoryItem with id ${itemId}")
+      }
+      case None => throw new Error("should not occur")
+    }
+  }
+
+  /**
+    * @param item remove the InventoryItem with item.id
+    * @return new state
+    */
   def remove(item: InventoryItem): HouseholdState = {
     household match {
       case Some(h) =>
@@ -171,7 +211,11 @@ object GetHousehold extends HouseholdCommand[Option[Household]] {
   implicit val format: Format[GetHousehold.type] = JsonSerializer.emptySingletonFormat(GetHousehold)
 }
 
-final case class Consume(item: InventoryItem, newRemainingFraction: Float) extends HouseholdCommand[Done]
+object GetInventoryItems extends HouseholdCommand[Seq[InventoryItem]] {
+  implicit val format: Format[GetInventoryItems.type] = JsonSerializer.emptySingletonFormat(GetInventoryItems)
+}
+
+final case class Consume(itemId: UUID, newRemainingFraction: Float) extends HouseholdCommand[Done]
 object Consume {
   implicit val format: Format[Consume] = Json.format
 }
@@ -192,12 +236,12 @@ object HouseholdCreated {
   implicit val format: Format[HouseholdCreated] = Json.format
 }
 
-final case class InventoryItemPartiallyConsumed(item: InventoryItem, newRemainingFraction: Float) extends HouseholdEvent
+final case class InventoryItemPartiallyConsumed(itemId: UUID, newRemainingFraction: Float) extends HouseholdEvent
 object InventoryItemPartiallyConsumed {
   implicit val format: Format[InventoryItemPartiallyConsumed] = Json.format
 }
 
-final case class InventoryItemCompletelyConsumed(item: InventoryItem) extends HouseholdEvent
+final case class InventoryItemCompletelyConsumed(itemId: UUID) extends HouseholdEvent
 object InventoryItemCompletelyConsumed {
   implicit val format: Format[InventoryItemCompletelyConsumed] = Json.format
 }

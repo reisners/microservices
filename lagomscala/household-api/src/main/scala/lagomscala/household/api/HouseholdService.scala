@@ -24,7 +24,7 @@ trait HouseholdService extends Service {
     */
   def getOne(householdId: UUID): ServiceCall[NotUsed, Household]
 
-  def consume(hoseholdId: UUID, itemId: UUID): ServiceCall[Float, Done]
+  def consume(householdId: UUID, itemId: UUID): ServiceCall[Float, Done]
 
   def stock(householdId: UUID): ServiceCall[InventoryItem, Done]
 
